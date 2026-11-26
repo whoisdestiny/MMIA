@@ -228,14 +228,42 @@ figcaption::before{content:"";width:18px;height:2px;border-radius:2px;background
 .ba .tag.r{right:16px;background:var(--blue);color:#fff}
 .ba input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:ew-resize}
 .gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;margin-top:36px}
-.gal a{display:flex;flex-direction:column;text-decoration:none;color:inherit}
+.gal .g{display:flex;flex-direction:column;text-decoration:none;color:inherit;background:none;border:0;padding:0;margin:0;font:inherit;text-align:left;cursor:pointer;border-radius:var(--r)}
 .gal .ph{aspect-ratio:4/3;box-shadow:var(--shadow-sm);transition:box-shadow .25s}
-.gal a:hover .ph{box-shadow:var(--shadow)}
-.gal a:hover .ph img{transform:scale(1.05)}
+.gal .g:hover .ph{box-shadow:var(--shadow)}
+.gal .g:hover .ph img{transform:scale(1.05)}
+.gal .g.on .ph{box-shadow:0 0 0 3px #fff,0 0 0 6px var(--blue),var(--shadow)}
+.gal .g.on b{color:var(--blue-text)}
+.album{margin-top:56px;padding-top:44px;border-top:1px solid var(--line)}
+.album .ah{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 32px}
+.album .ah small{display:block;font-size:12.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--blue-text)}
+.album h3{font-size:clamp(24px,2.6vw,32px);margin-top:8px}
+.album .ah p{margin:0;color:var(--muted);max-width:52ch}
+.album .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:24px 20px;margin-top:28px}
+.shot{display:flex;flex-direction:column;gap:10px;background:none;border:0;padding:0;margin:0;font:inherit;text-align:left;color:inherit;cursor:zoom-in;border-radius:var(--r)}
+.shot .ph{aspect-ratio:3/2;box-shadow:var(--shadow-sm);transition:box-shadow .25s}
+.shot:hover .ph{box-shadow:var(--shadow)}
+.shot:hover .ph img{transform:scale(1.05)}
+.shot span{font-size:14px;line-height:1.45;color:var(--muted)}
+.js-motion .shot{animation:shotIn .6s var(--ease) both;animation-delay:calc(var(--i,0)*.05s)}
+@keyframes shotIn{from{opacity:0;transform:translateY(12px)}}
+.lb{border:0;padding:0;margin:0;width:100%;height:100%;max-width:none;max-height:none;background:rgba(24,30,52,.96);color:#fff}
+.lb::backdrop{background:rgba(24,30,52,.7)}
+.lb[open]{display:grid;grid-template-rows:1fr auto;place-items:center}
+.lb img{max-width:min(90vw,1700px);max-height:80vh;width:auto;height:auto;object-fit:contain;border-radius:var(--r-sm);box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.lb .cap{padding:14px 24px 28px;text-align:center;font-size:15px;color:#D9E2EC}
+.lb .cap b{color:#fff;font-weight:600}
+.lb button{position:absolute;display:grid;place-items:center;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff;cursor:pointer;transition:background .2s,color .2s}
+.lb button:hover{background:#fff;color:var(--navy)}
+.lb .x{top:20px;right:20px}
+.lb .pv,.lb .nx{top:calc(50% - 24px)}
+.lb .pv{left:20px}
+.lb .nx{right:20px}
+@media (max-width:640px){.lb .pv,.lb .nx{top:auto;bottom:16px}.lb .cap{padding-bottom:80px}}
 .gal .ct{position:absolute;right:12px;bottom:12px;background:rgba(60,73,118,.85);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#fff;font-size:12px;font-weight:500;padding:5px 11px;border-radius:999px}
 .gal small{margin-top:16px;font-size:12.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--blue-text)}
 .gal b{margin-top:6px;font-weight:600;font-size:19px;letter-spacing:-.015em;color:var(--navy);transition:color .2s}
-.gal a:hover b{color:var(--blue-text)}
+.gal .g:hover b{color:var(--blue-text)}
 
 /* People */
 .ppl{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;margin-top:44px}
@@ -578,13 +606,27 @@ footer ul a:hover{color:#7FD0E8}
   <div class="head" style="margin-top:96px">
     <span class="kicker">Galleries</span>
     <h2>Galleries by date</h2>
+    <p class="lead">Select a gallery to see its photographs. Select any photograph to view it full size.</p>
   </div>
-  <div class="gal">
-    <a href="#pictures"><div class="ph"><img src="images/web/old-terminal-concourse.jpg" alt="" loading="lazy" decoding="async"><span class="ct">12 photos</span></div><small>March 2021</small><b>Before the works began</b></a>
-    <a href="#pictures"><div class="ph"><img src="images/web/aerial-site-car-park.jpg" alt="" loading="lazy" decoding="async"><span class="ct">18 photos</span></div><small>November 2022</small><b>Groundbreaking</b></a>
-    <a href="#pictures"><div class="ph"><img src="images/web/canopy-installation.jpg" alt="" loading="lazy" decoding="async"><span class="ct">24 photos</span></div><small>August 2024</small><b>The roof goes on</b></a>
-    <a href="#pictures"><div class="ph"><img src="images/web/new-departure-lounge.jpg" alt="" loading="lazy" decoding="async"><span class="ct">31 photos</span></div><small>June 2026</small><b>Opening day</b></a>
+  <div class="gal" id="gal">
+    <button type="button" class="g on" data-g="before" aria-controls="album" aria-pressed="true"><div class="ph"><img src="images/web/thumbs/old-terminal-concourse.jpg" alt="" loading="lazy" decoding="async"><span class="ct">8 photos</span></div><small>March 2021</small><b>Before the works began</b></button>
+    <button type="button" class="g" data-g="ground" aria-controls="album" aria-pressed="false"><div class="ph"><img src="images/web/thumbs/aerial-site-car-park.jpg" alt="" loading="lazy" decoding="async"><span class="ct">4 photos</span></div><small>November 2022</small><b>Groundbreaking</b></button>
+    <button type="button" class="g" data-g="roof" aria-controls="album" aria-pressed="false"><div class="ph"><img src="images/web/thumbs/canopy-installation.jpg" alt="" loading="lazy" decoding="async"><span class="ct">5 photos</span></div><small>August 2024</small><b>The roof goes on</b></button>
+    <button type="button" class="g" data-g="open" aria-controls="album" aria-pressed="false"><div class="ph"><img src="images/web/thumbs/new-departure-lounge.jpg" alt="" loading="lazy" decoding="async"><span class="ct">5 photos</span></div><small>June 2026</small><b>Opening day</b></button>
   </div>
+
+  <div class="album" id="album" aria-live="polite">
+    <div class="ah"><div><small id="album-date"></small><h3 id="album-title"></h3></div><p id="album-intro"></p></div>
+    <div class="grid" id="album-grid"></div>
+  </div>
+
+  <dialog class="lb" id="lb" aria-label="Photo viewer">
+    <img id="lb-img" alt="">
+    <p class="cap" id="lb-cap"></p>
+    <button type="button" class="x" id="lb-x" aria-label="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <button type="button" class="pv" id="lb-pv" aria-label="Previous photo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <button type="button" class="nx" id="lb-nx" aria-label="Next photo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+  </dialog>
 </div></section>
 </main>
 
@@ -665,7 +707,7 @@ footer ul a:hover{color:#7FD0E8}
     <div><h4>Resources</h4><ul><li><a href="#archive">Archive</a></li><li><a href="#archive">Press assets</a></li><li><a href="#credits">Photo credits</a></li><li><a href="#questions">Q&amp;A</a></li></ul></div>
     <div><h4>Authority</h4><ul><li><a href="#home">Main website</a></li><li><a href="#home">Social channels</a></li><li><a href="#questions">Contact</a></li><li><a href="#home">Accessibility</a></li></ul></div>
   </div>
-  <div class="legal"><span>© 2026 Federal Airports Authority of Nigeria</span><span>Clickable prototype · November 2026 · Photographs via <a href="#credits">Wikimedia Commons</a></span></div>
+  <div class="legal"><span>© 2026 Federal Airports Authority of Nigeria</span><span>Clickable prototype · November 2026 · <a href="#credits">Photo credits</a></span></div>
 </div></footer>
 <div class="rule" aria-hidden="true"></div>
 
@@ -674,7 +716,7 @@ footer ul a:hover{color:#7FD0E8}
   var motion=document.documentElement.classList.contains('js-motion');
 
   /* Scroll reveals: elements rise into view, staggered within each group */
-  var revealSel=['.head > *','.split .body > *','.split > figure','.board .grid','.chap > *','.tile','.mapwrap > .map','.part','.filters','.count','.ba','.ba + figure','.gal > a','.ppl .person','.note','.qa aside > *','.faq details','#v-archive .search','.docs .doc','.credits','footer .fgrid > *'];
+  var revealSel=['.head > *','.split .body > *','.split > figure','.board .grid','.chap > *','.tile','.mapwrap > .map','.part','.filters','.count','.ba','.ba + figure','.gal > .g','.ppl .person','.note','.qa aside > *','.faq details','#v-archive .search','.docs .doc','.credits','footer .fgrid > *'];
   var onReveal={};
   var io=motion&&'IntersectionObserver' in window?new IntersectionObserver(function(entries){
     entries.forEach(function(en){
@@ -841,6 +883,71 @@ footer ul a:hover{color:#7FD0E8}
   };
   window.addEventListener('pointermove',function(e){if(drag)fromEvent(e)});
   window.addEventListener('pointerup',function(){drag=false});
+
+  /* Photo galleries: each card opens its album below; each photo opens full size */
+  var albums={
+    before:{date:'March 2021',title:'Before the works began',intro:'The old international terminal as passengers knew it, still running at full stretch.',photos:[
+      ['old-terminal-night.jpg','The old terminal and control tower at night'],
+      ['old-terminal-arrivals.jpg','The old terminal’s departures and arrivals frontage'],
+      ['old-terminal-busy-hall.jpg','Passengers in a busy hall of the old terminal'],
+      ['old-terminal-concourse.jpg','The arrivals concourse in the old terminal'],
+      ['old-checkin-desks.jpg','Check-in desks in the old terminal'],
+      ['apron-old-terminal.jpg','Aircraft on the apron beside the old terminal'],
+      ['terminal-walkway.jpg','Passengers on the walkway outside the terminal'],
+      ['covered-walkway.jpg','The blue-roofed covered walkway']]},
+    ground:{date:'November 2022',title:'Groundbreaking',intro:'Earthworks, foundations and the first new roads, dug while the old terminal kept operating.',photos:[
+      ['aerial-site-car-park.jpg','Earthworks in front of the terminal, seen from the air'],
+      ['excavation-foundations.jpg','Workers and reinforcement cages in a foundation excavation'],
+      ['new-car-park.jpg','Ground cleared and surfaced for the new car park'],
+      ['aerial-access-roads.jpg','The new approach roads taking shape']]},
+    roof:{date:'August 2024',title:'The roof goes on',intro:'The frame rises, the curved canopy is fitted and the glass facade closes in.',photos:[
+      ['tower-crane-frame.jpg','A tower crane beside the rising terminal frame'],
+      ['scaffolding-works.jpg','Scaffolding as the new structure takes shape'],
+      ['canopy-installation.jpg','The curved canopy being fitted to the terminal front'],
+      ['new-terminal-facade.jpg','The glass facade and canopy from above'],
+      ['new-terminal-frontage.jpg','The new frontage, with the control tower behind']]},
+    open:{date:'June 2026',title:'Opening day',intro:'The finished terminal, forecourt and passenger halls, ready for the first flights.',photos:[
+      ['aerial-new-terminal-forecourt.jpg','The new terminal and landscaped forecourt from the air'],
+      ['new-landside-road.jpg','The new landside road and covered walkways'],
+      ['new-departure-lounge.jpg','Seating in the new departure lounge'],
+      ['new-arrivals-hall.jpg','The new arrivals hall'],
+      ['new-security-screening.jpg','Baggage screening in the new terminal']]}
+  };
+  var gal=document.getElementById('gal'),agrid=document.getElementById('album-grid'),curAlbum='before';
+  function showAlbum(k){
+    var a=albums[k];curAlbum=k;
+    gal.querySelectorAll('.g').forEach(function(b){var on=b.getAttribute('data-g')===k;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
+    document.getElementById('album-date').textContent=a.date+' · '+a.photos.length+' photos';
+    document.getElementById('album-title').textContent=a.title;
+    document.getElementById('album-intro').textContent=a.intro;
+    agrid.innerHTML=a.photos.map(function(p,i){
+      return '<button type="button" class="shot" data-i="'+i+'" style="--i:'+i+'"><div class="ph"><img src="images/web/thumbs/'+p[0]+'" alt="'+p[1]+'" loading="lazy" decoding="async"></div><span>'+p[1]+'</span></button>';
+    }).join('');
+  }
+  gal.addEventListener('click',function(e){
+    var b=e.target.closest('.g');if(!b)return;
+    showAlbum(b.getAttribute('data-g'));
+    document.getElementById('album').scrollIntoView({behavior:motion?'smooth':'auto',block:'start'});
+  });
+  showAlbum('before');
+
+  var lb=document.getElementById('lb'),lbImg=document.getElementById('lb-img'),lbCap=document.getElementById('lb-cap'),lbI=0;
+  function lbShow(i){
+    var ps=albums[curAlbum].photos;lbI=(i+ps.length)%ps.length;
+    lbImg.src='images/web/'+ps[lbI][0];lbImg.alt=ps[lbI][1];
+    lbCap.innerHTML='<b>'+ps[lbI][1]+'</b> · '+albums[curAlbum].title+' · '+(lbI+1)+' of '+ps.length;
+  }
+  agrid.addEventListener('click',function(e){
+    var s=e.target.closest('.shot');if(!s)return;
+    lbShow(+s.getAttribute('data-i'));
+    if(lb.showModal)lb.showModal();else lb.setAttribute('open','');
+  });
+  function lbClose(){if(lb.close)lb.close();else lb.removeAttribute('open')}
+  document.getElementById('lb-x').addEventListener('click',lbClose);
+  document.getElementById('lb-pv').addEventListener('click',function(){lbShow(lbI-1)});
+  document.getElementById('lb-nx').addEventListener('click',function(){lbShow(lbI+1)});
+  lb.addEventListener('click',function(e){if(e.target===lb)lbClose()});
+  lb.addEventListener('keydown',function(e){if(e.key==='ArrowLeft')lbShow(lbI-1);else if(e.key==='ArrowRight')lbShow(lbI+1)});
 
   /* FAQ search */
   var q=document.getElementById('q');
